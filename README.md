@@ -28,6 +28,20 @@ pnpm db:migrate
 pnpm seed
 ```
 
+### ローカルDB(Neonを使わない場合)
+
+システムにPostgreSQLをインストールせず、node_modules内のバイナリで起動できる:
+
+```sh
+pnpm dev:db   # 127.0.0.1:54321 で起動(データは .dev/pgdata に永続化)
+```
+
+`.env` に以下を設定:
+
+```
+DATABASE_URL=postgres://postgres:postgres@127.0.0.1:54321/tech_news_digest
+```
+
 ## 開発
 
 ```sh

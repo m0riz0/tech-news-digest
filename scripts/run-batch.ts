@@ -1,3 +1,9 @@
+try {
+  process.loadEnvFile();
+} catch {
+  // .env が無い環境(CI)では環境変数をそのまま使う
+}
+
 import { JOB_NAMES, type JobName, runJobs } from "@/batch/index";
 
 /**

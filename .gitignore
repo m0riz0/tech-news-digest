@@ -18,6 +18,9 @@ build/
 *.log
 npm-debug.log*
 
+# local dev db (embedded-postgres)
+.dev/
+
 # misc
 .DS_Store
 *.tsbuildinfo

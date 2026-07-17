@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:db": "tsx scripts/dev-db.ts",
     "build": "next build",
     "start": "next start",
     "lint": "biome check .",
@@ -39,6 +40,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "drizzle-kit": "^0.31.0",
+    "embedded-postgres": "18.4.0-beta.17",
     "tailwindcss": "^4.1.0",
     "tsx": "^4.19.0",
     "typescript": "^5.8.0",
