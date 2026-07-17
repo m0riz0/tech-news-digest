@@ -1,8 +1,8 @@
-import Parser from "rss-parser";
-import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
-import { articles, fetchLogs, sources } from "@/db/schema";
 import { listActiveSources } from "@/db/queries/sources";
+import { articles, fetchLogs, sources } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import Parser from "rss-parser";
 import { extractArticleText, stripHtml } from "./extract-content";
 
 /** レート枠ガード(docs/09 §5): 初回取得・障害復旧時の大量流入を防ぐ */
@@ -87,10 +87,7 @@ export async function fetchFeeds(): Promise<FetchSummary> {
       }
 
       summary.newArticles += inserted;
-      await db
-        .update(sources)
-        .set({ lastFetchedAt: new Date() })
-        .where(eq(sources.id, source.id));
+      await db.update(sources).set({ lastFetchedAt: new Date() }).where(eq(sources.id, source.id));
       await db.insert(fetchLogs).values({
         sourceId: source.id,
         status: "success",

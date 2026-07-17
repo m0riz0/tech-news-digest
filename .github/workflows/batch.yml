@@ -1,0 +1,63 @@
+# バッチのスケジュール実行(docs/04 §3.1, docs/07 §2.6)
+# 1日3回(JST 朝7:00・昼12:00・夕18:00)。朝の回のみ curate(今日の5本)も実行する。
+# AI実行は Claude Code ヘッドレスモード(CLAUDE_CODE_OAUTH_TOKEN で認証)。
+name: Batch
+
+on:
+  schedule:
+    - cron: "0 22 * * *" # JST 07:00(朝: fetch + digest + curate)
+    - cron: "0 3 * * *"  # JST 12:00(昼: fetch + digest)
+    - cron: "0 9 * * *"  # JST 18:00(夕: fetch + digest)
+  workflow_dispatch:
+    inputs:
+      jobs:
+        description: "実行するジョブ(スペース区切り: fetch digest curate)"
+        required: false
+        default: "fetch digest"
+
+concurrency:
+  group: batch
+  cancel-in-progress: false
+
+jobs:
+  run-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      AI_PROVIDER: claude-code
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Apply DB migrations
+        run: pnpm db:migrate
+
+      - name: Determine jobs for this run
+        id: jobs
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "jobs=${{ github.event.inputs.jobs }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 22 * * *" ]; then
+            echo "jobs=fetch digest curate" >> "$GITHUB_OUTPUT"
+          else
+            echo "jobs=fetch digest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run batch
+        run: pnpm batch ${{ steps.jobs.outputs.jobs }}

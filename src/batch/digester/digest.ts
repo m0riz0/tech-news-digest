@@ -1,8 +1,8 @@
-import { and, asc, eq, inArray, lt, sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
-import { articleTags, articles, sources } from "@/db/schema";
 import { listActiveTags } from "@/db/queries/sources";
+import { articleTags, articles, sources } from "@/db/schema";
 import { getEnv } from "@/lib/config";
+import { and, asc, eq, inArray, lt, sql } from "drizzle-orm";
 import { getLLMClient } from "../shared/llm/client";
 import { buildDigestSystemPrompt, buildDigestUserPrompt } from "./prompt";
 import { type DigestItem, digestOutputSchema, parseJsonOutput } from "./schema";
@@ -46,7 +46,10 @@ export async function digestPendingArticles(): Promise<DigestSummary> {
     .where(
       and(
         eq(articles.status, "processing"),
-        lt(articles.fetchedAt, sql`now() - interval '${sql.raw(String(STALE_PROCESSING_MINUTES))} minutes'`),
+        lt(
+          articles.fetchedAt,
+          sql`now() - interval '${sql.raw(String(STALE_PROCESSING_MINUTES))} minutes'`,
+        ),
       ),
     );
 

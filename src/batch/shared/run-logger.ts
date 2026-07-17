@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { batchRuns } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 type Job = "fetch" | "digest" | "curate";
 

@@ -1,6 +1,6 @@
-import { and, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { articleTags, articles, sources, tags } from "@/db/schema";
+import { and, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 
 /** 画面・APIで共用する記事の表示用形状(docs/06 §3.1) */
 export type ArticleListItem = {
@@ -39,10 +39,7 @@ export async function listArticles(params: ArticleListParams): Promise<ArticleLi
     conditions.push(
       or(
         lt(articles.publishedAt, params.cursor.publishedAt),
-        and(
-          eq(articles.publishedAt, params.cursor.publishedAt),
-          lt(articles.id, params.cursor.id),
-        ),
+        and(eq(articles.publishedAt, params.cursor.publishedAt), lt(articles.id, params.cursor.id)),
       )!,
     );
   }

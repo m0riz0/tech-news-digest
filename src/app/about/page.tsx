@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About — Tech News Digest",

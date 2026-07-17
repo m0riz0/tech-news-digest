@@ -1,12 +1,12 @@
 import { ArticleList } from "@/components/ArticleList";
+import type { PickJson } from "@/components/PickCard";
 import { PicksSection } from "@/components/PicksSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import type { PickJson } from "@/components/PickCard";
 import { listArticles } from "@/db/queries/articles";
 import { getLatestPicks } from "@/db/queries/picks";
-import { type ArticleJson, toArticleJson } from "@/lib/article-json";
 import { encodeCursor } from "@/lib/api-helpers";
+import { type ArticleJson, toArticleJson } from "@/lib/article-json";
 import { formatJstDateTime, toJstDateString } from "@/lib/datetime";
 
 /** ISR: バッチ更新頻度(1日3回)に対して5分間隔で十分(docs/04 §4) */
@@ -40,8 +40,7 @@ async function loadPageData(): Promise<PageData> {
         })),
       },
       articles: articles.map(toArticleJson),
-      nextCursor:
-        articlesResult.hasMore && last ? encodeCursor(last.publishedAt, last.id) : null,
+      nextCursor: articlesResult.hasMore && last ? encodeCursor(last.publishedAt, last.id) : null,
       lastUpdated: articles[0] ? formatJstDateTime(new Date()) : null,
     };
   } catch (err) {

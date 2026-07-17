@@ -1,6 +1,6 @@
-import { asc, eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { sources, tags } from "@/db/schema";
+import { asc, eq } from "drizzle-orm";
 
 export async function listActiveSources() {
   const db = getDb();

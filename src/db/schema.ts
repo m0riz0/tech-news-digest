@@ -55,7 +55,9 @@ export const articles = pgTable(
   },
   (t) => [
     // digester の対象抽出用の部分インデックス(docs/05 §3)
-    index("articles_pending_idx").on(t.status).where(sql`${t.status} = 'pending'`),
+    index("articles_pending_idx")
+      .on(t.status)
+      .where(sql`${t.status} = 'pending'`),
     index("articles_published_at_idx").on(t.publishedAt.desc()),
     index("articles_source_published_idx").on(t.sourceId, t.publishedAt.desc()),
   ],
@@ -80,7 +82,10 @@ export const articleTags = pgTable(
       .notNull()
       .references(() => tags.id),
   },
-  (t) => [primaryKey({ columns: [t.articleId, t.tagId] }), index("article_tags_tag_idx").on(t.tagId)],
+  (t) => [
+    primaryKey({ columns: [t.articleId, t.tagId] }),
+    index("article_tags_tag_idx").on(t.tagId),
+  ],
 );
 
 /** 今日の5本(docs/05 §2.5) */

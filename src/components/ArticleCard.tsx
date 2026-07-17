@@ -27,10 +27,7 @@ export function ArticleCard({ article }: { article: ArticleJson }) {
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap gap-1">
           {article.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded bg-stone-100 px-1.5 py-0.5 text-xs text-stone-600"
-            >
+            <span key={tag} className="rounded bg-stone-100 px-1.5 py-0.5 text-xs text-stone-600">
               #{tag}
             </span>
           ))}

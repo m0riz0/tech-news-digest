@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import type { ArticleJson } from "@/lib/article-json";
+import { useState } from "react";
 import { ArticleCard } from "./ArticleCard";
 
 type Props = {
@@ -44,9 +44,7 @@ export function ArticleList({ initialArticles, initialCursor }: Props) {
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}
-        {articles.length === 0 && (
-          <p className="text-sm text-stone-500">記事がまだありません。</p>
-        )}
+        {articles.length === 0 && <p className="text-sm text-stone-500">記事がまだありません。</p>}
       </div>
 
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}

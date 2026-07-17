@@ -28,7 +28,11 @@ async function runJob(job: JobName): Promise<boolean> {
       case "fetch": {
         const s = await fetchFeeds();
         const status =
-          s.sourcesFailed === 0 ? "success" : s.sourcesFailed < s.sourcesTotal ? "partial" : "failed";
+          s.sourcesFailed === 0
+            ? "success"
+            : s.sourcesFailed < s.sourcesTotal
+              ? "partial"
+              : "failed";
         await finishRun(runId, {
           status,
           itemsTotal: s.sourcesTotal,
