@@ -1,5 +1,6 @@
 allowBuilds:
   "@biomejs/biome": true
   "@embedded-postgres/darwin-arm64": true
+  core-js: false
   esbuild: true
   sharp: true
