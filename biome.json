@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": [".next", "node_modules", "drizzle"]
+    "ignore": [".next", "node_modules", "drizzle", ".vercel", ".dev", ".agents", ".claude"]
   },
   "formatter": {
     "enabled": true,

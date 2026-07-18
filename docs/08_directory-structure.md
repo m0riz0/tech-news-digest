@@ -31,7 +31,8 @@ tech-news-digest/
 │   │   ├── ArticleCard.tsx        # 記事カード(一覧・picks共用)
 │   │   ├── PickCard.tsx           # 今日の5本用カード(選定理由つき)
 │   │   ├── PicksSection.tsx
-│   │   ├── ArticleList.tsx        # 一覧+「もっと見る」
+│   │   ├── ArticleList.tsx        # 一覧+タグ絞り込み+「もっと見る」
+│   │   ├── PostHogProvider.tsx    # アクセス解析(PostHog)の初期化
 │   │   └── SiteHeader.tsx / SiteFooter.tsx
 │   │
 │   ├── db/                        # データアクセス層(Web/バッチ共用)
@@ -65,11 +66,13 @@ tech-news-digest/
 │   └── lib/                       # 汎用ユーティリティ
 │       ├── config.ts              # 環境変数の読み込み・検証
 │       ├── datetime.ts            # JST変換・相対時刻表示
-│       └── api-helpers.ts         # APIレスポンス整形・エラー形式
+│       ├── api-helpers.ts         # APIレスポンス整形・エラー形式・カーソル
+│       └── article-json.ts        # 記事のJSON表現(API/コンポーネントprops共用)
 │
 ├── scripts/
 │   ├── run-batch.ts               # CLI実行用エントリ(GitHub Actions / ローカル開発)
-│   └── seed.ts                    # sources / tags の初期データ投入
+│   ├── seed.ts                    # sources / tags の初期データ投入
+│   └── dev-db.ts                  # ローカル開発用PostgreSQL(embedded-postgres)の起動
 │
 ├── drizzle/                       # マイグレーションSQL(drizzle-kit生成)
 ├── drizzle.config.ts
@@ -81,10 +84,15 @@ tech-news-digest/
 ├── public/
 ├── .env.example                   # 必要な環境変数の一覧(docs/07 §4 と対応)
 ├── next.config.ts
-├── tailwind.config.ts
+├── biome.json                     # Lint/Format設定
+├── vitest.config.ts
 ├── package.json
 └── tsconfig.json
 ```
+
+> 実装時の変更点: Tailwind CSS 4 を採用したため `tailwind.config.ts` は存在しない
+> (v4はCSSファイル内で設定する方式)。`src/app/api/internal/cron/` は既定のGitHub Actions
+> 構成では不要のため未実装(docs/06 §4 のとおりオプション扱い)。
 
 ## 設計上のポイント
 

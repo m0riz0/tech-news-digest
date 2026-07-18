@@ -39,7 +39,11 @@ export async function digestPendingArticles(): Promise<DigestSummary> {
     errors: [],
   };
 
-  // プロセス異常終了対策: 古い processing を pending に戻す
+  // プロセス異常終了対策: 古い processing を pending に戻す(docs/05 §5)。
+  // processing開始時刻のカラムを持たないため fetched_at で近似している。
+  // バッチはGitHub Actionsのconcurrency groupで直列実行される前提であり、
+  // ローカル実行とCIが同時に走った場合のみ、取得から30分以上経過した処理中記事を
+  // 二重処理する可能性がある(結果は冪等なので実害はAI呼び出しの重複のみ)
   await db
     .update(articles)
     .set({ status: "pending" })
