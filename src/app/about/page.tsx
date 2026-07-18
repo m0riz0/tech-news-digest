@@ -49,8 +49,10 @@ export default function AboutPage() {
             下記窓口までご連絡ください。該当メディア・記事の掲載を速やかに停止します。
           </p>
           <p className="rounded border border-stone-200 bg-white p-3">
-            連絡先: <span className="font-mono">contact@example.com</span>
-            {/* TODO: 公開前に実際の連絡先へ差し替える(docs/09 §7 公開前チェックリスト) */}
+            連絡先:{" "}
+            <a href="mailto:m0riz0.tech@gmail.com" className="font-mono underline">
+              m0riz0.tech@gmail.com
+            </a>
           </p>
         </section>
       </main>
