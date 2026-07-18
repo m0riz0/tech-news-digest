@@ -53,3 +53,20 @@ gh workflow list --all --repo m0riz0/tech-news-digest      # 状態確認
 
 - [x] PostHog の Billing limit($0)設定 — 確認・対応済み(2026-07-18)
 - [x] Vercel Analytics のダッシュボード有効化(Enable) — 確認・対応済み(2026-07-18)
+
+## 7. GitHub Actions の CI が pnpm のビルドスクリプト承認漏れで壊れていた(2026-07-18 修正済み)
+
+`embedded-postgres` 導入時、macOS上で `pnpm approve-builds` を実行して
+`pnpm-workspace.yaml` に `@embedded-postgres/darwin-arm64` のみを承認する設定がコミットされた。
+CI(`ubuntu-latest`)では別パッケージ `@embedded-postgres/linux-x64` が解決されるが、
+これが未承認(未決定)のため、非対話環境の `pnpm install` が承認待ち状態で失敗し続けていた
+(`embedded-postgres` 追加コミットから直近の修正コミットまで、CIは全件失敗していた)。
+
+Vercel側のビルドは独自にpnpm installを行うため影響を受けず、デプロイ自体は問題なく成功し続けていた
+ことも発覚が遅れた一因。CIの失敗はVercelのデプロイ成否とは独立して必ず確認すること。
+
+対応: `pnpm-workspace.yaml` の `allowBuilds` に `"@embedded-postgres/linux-x64": false` を追加
+(CIでは実バイナリを使わないためビルドスクリプト自体をスキップ)。
+
+**教訓**: 新しいネイティブ依存(ビルドスクリプトを持つパッケージ)を追加したら、
+`pnpm-workspace.yaml` の承認設定がCI実行環境(Linux)でも通るか、CIのActionsタブで必ず確認する。
