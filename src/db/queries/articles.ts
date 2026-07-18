@@ -5,7 +5,7 @@ import { and, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 /** 画面・APIで共用する記事の表示用形状(docs/06 §3.1) */
 export type ArticleListItem = {
   id: number;
-  source: { slug: string; name: string };
+  source: { slug: string; name: string; siteUrl: string };
   titleJa: string | null;
   titleOriginal: string;
   summaryJa: string | null;
@@ -62,6 +62,7 @@ export async function listArticles(params: ArticleListParams): Promise<ArticleLi
       publishedAt: articles.publishedAt,
       sourceSlug: sources.slug,
       sourceName: sources.name,
+      sourceSiteUrl: sources.siteUrl,
     })
     .from(articles)
     .innerJoin(sources, eq(articles.sourceId, sources.id))
@@ -76,7 +77,7 @@ export async function listArticles(params: ArticleListParams): Promise<ArticleLi
   return {
     articles: page.map((r) => ({
       id: r.id,
-      source: { slug: r.sourceSlug, name: r.sourceName },
+      source: { slug: r.sourceSlug, name: r.sourceName, siteUrl: r.sourceSiteUrl },
       titleJa: r.titleJa,
       titleOriginal: r.titleOriginal,
       summaryJa: r.summaryJa,

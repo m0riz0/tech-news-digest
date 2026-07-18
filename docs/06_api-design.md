@@ -46,7 +46,7 @@
   "articles": [
     {
       "id": 123,
-      "source": { "slug": "techcrunch", "name": "TechCrunch" },
+      "source": { "slug": "techcrunch", "name": "TechCrunch", "site_url": "https://techcrunch.com" },
       "title_ja": "OpenAI、GPT-◯◯を発表 — 推論性能が大幅向上",
       "title_original": "OpenAI releases GPT-...",
       "summary_ja": "OpenAIは新モデル◯◯を発表した。...",

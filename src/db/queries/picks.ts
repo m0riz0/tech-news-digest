@@ -44,6 +44,7 @@ export async function getLatestPicks(todayJst: string): Promise<PicksResult> {
       publishedAt: articles.publishedAt,
       sourceSlug: sources.slug,
       sourceName: sources.name,
+      sourceSiteUrl: sources.siteUrl,
     })
     .from(dailyPicks)
     .innerJoin(articles, eq(dailyPicks.articleId, articles.id))
@@ -60,7 +61,7 @@ export async function getLatestPicks(todayJst: string): Promise<PicksResult> {
       reason: r.reason,
       article: {
         id: r.id,
-        source: { slug: r.sourceSlug, name: r.sourceName },
+        source: { slug: r.sourceSlug, name: r.sourceName, siteUrl: r.sourceSiteUrl },
         titleJa: r.titleJa,
         titleOriginal: r.titleOriginal,
         summaryJa: r.summaryJa,

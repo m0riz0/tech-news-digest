@@ -6,7 +6,7 @@ export function PicksSection({ pickDate, picks }: { pickDate: string; picks: Pic
     <section>
       <h2 className="text-lg font-bold">
         🔥 今日読むべき{picks.length}本{" "}
-        <span className="text-sm font-normal text-stone-500">({pickDate})</span>
+        <span className="text-sm font-normal text-stone-500 dark:text-stone-400">({pickDate})</span>
       </h2>
       <div className="mt-3 space-y-3">
         {picks.map((pick) => (

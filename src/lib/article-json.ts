@@ -7,7 +7,7 @@ import type { ArticleListItem } from "@/db/queries/articles";
  */
 export type ArticleJson = {
   id: number;
-  source: { slug: string; name: string };
+  source: { slug: string; name: string; site_url: string };
   title_ja: string | null;
   title_original: string;
   summary_ja: string | null;
@@ -19,7 +19,7 @@ export type ArticleJson = {
 export function toArticleJson(a: ArticleListItem): ArticleJson {
   return {
     id: a.id,
-    source: a.source,
+    source: { slug: a.source.slug, name: a.source.name, site_url: a.source.siteUrl },
     title_ja: a.titleJa,
     title_original: a.titleOriginal,
     summary_ja: a.summaryJa,
