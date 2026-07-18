@@ -70,7 +70,7 @@ export async function digestPendingArticles(): Promise<DigestSummary> {
 
     try {
       const userPrompt = buildDigestUserPrompt(chunk);
-      let items = await callAndParse(llm, systemPrompt, userPrompt, model, summary);
+      let items = await callAndParseWithRetry(llm, systemPrompt, userPrompt, model, summary);
 
       // 欠落・不正があった記事のみ1回再試行(F-14)
       const returnedIds = new Set(items.map((i) => i.article_id));
@@ -167,6 +167,26 @@ async function callAndParse(
   summary.inputTokens += res.inputTokens ?? 0;
   summary.outputTokens += res.outputTokens ?? 0;
   return digestOutputSchema.parse(parseJsonOutput(res.text));
+}
+
+/**
+ * チャンク全体を処理し、JSONパース/スキーマ検証に失敗したら1回だけ再試行する。
+ * LLMは文字列内のダブルクオート・改行の未エスケープなどで単発の構文崩れを起こしやすく、
+ * 同じ入力でも再生成すればほぼ妥当なJSONになるため、全滅させる前に1回リトライする。
+ */
+async function callAndParseWithRetry(
+  llm: ReturnType<typeof getLLMClient>,
+  system: string,
+  prompt: string,
+  model: string,
+  summary: DigestSummary,
+): Promise<DigestItem[]> {
+  try {
+    return await callAndParse(llm, system, prompt, model, summary);
+  } catch (err) {
+    summary.errors.push(`parse failed, retrying chunk: ${errorMessage(err)}`);
+    return await callAndParse(llm, system, prompt, model, summary);
+  }
 }
 
 async function applyDigest(
