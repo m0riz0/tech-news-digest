@@ -11,7 +11,7 @@ export function SiteFooter() {
           </Link>
         </p>
         <p className="mt-2 text-stone-400 dark:text-owl-muted/70">
-          © {new Date().getFullYear()} Tech News Digest（運営: m0riz0）
+          © {new Date().getFullYear()} TechBeacon（運営: m0riz0）
         </p>
       </div>
     </footer>

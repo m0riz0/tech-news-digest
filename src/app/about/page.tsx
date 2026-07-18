@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About — Tech News Digest",
+  title: "About — TechBeacon",
 };
 
 /** About / 免責 / 出典方針 / 削除依頼窓口(docs/09 §3。法的観点からMVP必須) */
@@ -19,7 +19,7 @@ export default function AboutPage() {
             このサイトについて
           </h2>
           <p>
-            Tech News Digest は、海外のIT・AI系メディアを横断的に収集し、AIが「編集者」として
+            TechBeacon は、海外のIT・AI系メディアを横断的に収集し、AIが「編集者」として
             日本語タイトル・要約・重要度を整理する個人運営のニュースリーダーです。
             英語記事を読む負担を減らし、毎日数分で重要ニュースをキャッチアップできることを目指しています。
           </p>
