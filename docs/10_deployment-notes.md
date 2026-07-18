@@ -49,10 +49,7 @@ gh workflow list --all --repo m0riz0/tech-news-digest      # 状態確認
 現状 `tech-news-digest-ten.vercel.app`(Vercelの既定ドメイン)のまま運用している。
 独自ドメインを使う場合は Vercel の Project → Settings → Domains から追加する。急ぎでなければ対応不要。
 
-## 6. 要フォロー(未確認のまま)
+## 6. 要フォロー
 
-- [ ] PostHog の Billing limit($0)が実際に設定されているか、PostHog管理画面
-      (https://us.posthog.com/organization/billing )で確認する
-- [ ] Vercel Analytics がダッシュボード(https://vercel.com/m0riz0-tech/tech-news-digest/analytics )で
-      Enable されているか確認する(コードは導入済み・スクリプトは配信されているが、
-      ダッシュボードでのデータ収集有効化は未確認)
+- [x] PostHog の Billing limit($0)設定 — 確認・対応済み(2026-07-18)
+- [x] Vercel Analytics のダッシュボード有効化(Enable) — 確認・対応済み(2026-07-18)
