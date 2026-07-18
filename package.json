@@ -25,6 +25,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.1",
     "@extractus/article-extractor": "^8.0.19",
+    "@vercel/analytics": "^2.0.1",
     "drizzle-orm": "^0.44.0",
     "next": "^15.3.0",
     "postgres": "^3.4.5",
