@@ -14,8 +14,8 @@ export default function AboutPage() {
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         <h1 className="text-2xl font-bold">About</h1>
 
-        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-100">
+        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-owl-text/85">
+          <h2 className="text-lg font-bold text-stone-900 dark:text-owl-text">
             このサイトについて
           </h2>
           <p>
@@ -25,8 +25,8 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-100">免責事項</h2>
+        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-owl-text/85">
+          <h2 className="text-lg font-bold text-stone-900 dark:text-owl-text">免責事項</h2>
           <p>
             各記事の日本語タイトル・要約はAIによって自動生成されたものです。
             正確性には配慮していますが、誤訳や不正確な要約が含まれる可能性があります。
@@ -34,8 +34,8 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-100">出典方針</h2>
+        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-owl-text/85">
+          <h2 className="text-lg font-bold text-stone-900 dark:text-owl-text">出典方針</h2>
           <ul className="list-disc space-y-1 pl-5">
             <li>すべての記事にメディア名・公開日時・元記事へのリンクを明示しています</li>
             <li>要約は元記事の代替とならない短い分量(2〜4文)に留めています</li>
@@ -44,15 +44,15 @@ export default function AboutPage() {
           </ul>
         </section>
 
-        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
-          <h2 className="text-lg font-bold text-stone-900 dark:text-stone-100">
+        <section className="mt-6 space-y-3 text-sm leading-relaxed text-stone-700 dark:text-owl-text/85">
+          <h2 className="text-lg font-bold text-stone-900 dark:text-owl-text">
             削除依頼・お問い合わせ
           </h2>
           <p>
             権利者の方からの掲載停止・削除のご依頼には誠実かつ迅速に対応いたします。
             下記窓口までご連絡ください。該当メディア・記事の掲載を速やかに停止します。
           </p>
-          <p className="rounded border border-stone-200 bg-white p-3 dark:border-stone-800 dark:bg-stone-900">
+          <p className="rounded border border-stone-200 bg-white p-3 dark:border-owl-border dark:bg-owl-surface">
             連絡先:{" "}
             <a href="mailto:m0riz0.tech@gmail.com" className="font-mono underline">
               m0riz0.tech@gmail.com

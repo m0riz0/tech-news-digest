@@ -12,9 +12,9 @@ export type PickJson = {
 export function PickCard({ pick }: { pick: PickJson }) {
   const { article } = pick;
   return (
-    <article className="rounded-lg border border-amber-200 bg-white p-4 shadow-sm dark:border-amber-900 dark:bg-stone-900">
-      <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
+    <article className="rounded-lg border border-amber-200 bg-white p-4 shadow-sm dark:border-owl-yellow/30 dark:bg-owl-surface">
+      <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-owl-muted">
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white dark:bg-owl-orange dark:text-owl-bg">
           {pick.rank}
         </span>
         <SourceLabel source={article.source} />
@@ -29,12 +29,12 @@ export function PickCard({ pick }: { pick: PickJson }) {
       </h3>
 
       {article.summary_ja && (
-        <p className="mt-2 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+        <p className="mt-2 text-sm leading-relaxed text-stone-700 dark:text-owl-text/85">
           {article.summary_ja}
         </p>
       )}
 
-      <p className="mt-2 text-sm text-amber-700 dark:text-amber-400">
+      <p className="mt-2 text-sm text-amber-700 dark:text-owl-yellow">
         <span className="font-medium">選定理由:</span> {pick.reason}
       </p>
 
@@ -43,7 +43,7 @@ export function PickCard({ pick }: { pick: PickJson }) {
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+          className="text-sm font-medium text-blue-600 hover:underline dark:text-owl-blue"
         >
           元記事を読む ↗
         </a>

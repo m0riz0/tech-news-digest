@@ -1,9 +1,24 @@
 @import "tailwindcss";
 
+/* ダークモード配色: VS Code "Night Owl" テーマ風のパレット */
+@theme {
+  --color-owl-bg: #011627; /* エディタ背景の深いネイビー */
+  --color-owl-surface: #0b2942; /* 一段明るいサーフェス(カード) */
+  --color-owl-border: #1d3b53; /* 選択色。ボーダーに使用 */
+  --color-owl-text: #d6deeb; /* 基本テキスト(青灰色) */
+  --color-owl-muted: #5f7e97; /* 補助テキスト */
+  --color-owl-faint: #637777; /* コメント色。最も控えめなテキスト */
+  --color-owl-blue: #82aaff; /* リンク・アクティブ要素 */
+  --color-owl-cyan: #7fdbca; /* メディア名・タグ */
+  --color-owl-yellow: #ecc48d; /* 選定理由 */
+  --color-owl-orange: #f78c6c; /* ランクバッジ */
+  --color-owl-red: #ef5350; /* エラー */
+}
+
 :root {
   color-scheme: light dark;
 }
 
 body {
-  @apply bg-stone-50 text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100;
+  @apply bg-stone-50 text-stone-900 antialiased dark:bg-owl-bg dark:text-owl-text;
 }

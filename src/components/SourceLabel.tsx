@@ -5,7 +5,7 @@ import { faviconUrl } from "@/lib/favicon";
 export function SourceLabel({ source }: { source: ArticleJson["source"] }) {
   const icon = faviconUrl(source.site_url);
   return (
-    <span className="flex items-center gap-1.5 font-medium text-stone-600 dark:text-stone-300">
+    <span className="flex items-center gap-1.5 font-medium text-stone-600 dark:text-owl-cyan">
       {icon && (
         // 装飾用アイコン(alt空)。Googleのfaviconサービスは未知ドメインでも
         // デフォルト画像を返すため onError 処理は不要

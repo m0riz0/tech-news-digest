@@ -103,20 +103,20 @@ export function ArticleList({ initialArticles, initialCursor, tags }: Props) {
           <ArticleCard key={article.id} article={article} />
         ))}
         {articles.length === 0 && !loading && (
-          <p className="text-sm text-stone-500 dark:text-stone-400">
+          <p className="text-sm text-stone-500 dark:text-owl-muted">
             {selectedTag ? "該当する記事がありません。" : "記事がまだありません。"}
           </p>
         )}
       </div>
 
-      {error && <p className="mt-3 text-sm text-red-600 dark:text-red-400">{error}</p>}
+      {error && <p className="mt-3 text-sm text-red-600 dark:text-owl-red">{error}</p>}
       {cursor && (
         <div className="mt-4 text-center">
           <button
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="rounded-lg border border-stone-300 bg-white px-6 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 disabled:opacity-50 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
+            className="rounded-lg border border-stone-300 bg-white px-6 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 disabled:opacity-50 dark:border-owl-border dark:bg-owl-surface dark:text-owl-text/85 dark:hover:bg-owl-border/60"
           >
             {loading ? "読み込み中..." : "もっと見る"}
           </button>
@@ -142,8 +142,8 @@ function TagChip({
       aria-pressed={active}
       className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
         active
-          ? "bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900"
-          : "bg-stone-100 text-stone-600 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+          ? "bg-stone-800 text-white dark:bg-owl-blue dark:text-owl-bg"
+          : "bg-stone-100 text-stone-600 hover:bg-stone-200 dark:bg-owl-surface dark:text-owl-muted dark:hover:bg-owl-border dark:hover:text-owl-text"
       }`}
     >
       {label}
