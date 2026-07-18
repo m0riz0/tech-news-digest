@@ -134,3 +134,7 @@ drizzle/        # マイグレーションSQL
 tests/          # Vitest ユニットテスト
 docs/           # 設計ドキュメント(要件定義〜運用メモ)
 ```
+
+## License
+
+[MIT](./LICENSE)
