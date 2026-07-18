@@ -94,8 +94,16 @@ export async function replacePicks(
   });
 }
 
-/** 過去24時間の processed 記事(curator の入力用)。importance 降順 */
-export async function listCurationCandidates(limit: number) {
+/** curator の候補ウィンドウ(直近72時間)。当日取得分に限定せず直近の重要記事を対象にする */
+const CANDIDATE_WINDOW_HOURS = 72;
+
+/**
+ * curator の入力候補: 直近72時間に公開された processed 記事(importance 降順)。
+ * 過去の「今日の5本」に選ばれた記事は除外する(同じ記事が枠を占領し続けるのを防ぐ)。
+ * 当日分(pick_date = todayJst)は除外しない — 同日のバッチ再実行で picks を
+ * 洗い替えできるようにするため。
+ */
+export async function listCurationCandidates(limit: number, todayJst: string) {
   const db = getDb();
   return db
     .select({
@@ -103,12 +111,18 @@ export async function listCurationCandidates(limit: number) {
       titleJa: articles.titleJa,
       summaryJa: articles.summaryJa,
       importance: articles.importance,
+      publishedAt: articles.publishedAt,
       sourceName: sources.name,
     })
     .from(articles)
     .innerJoin(sources, eq(articles.sourceId, sources.id))
     .where(
-      sql`${articles.status} = 'processed' and ${articles.processedAt} > now() - interval '24 hours'`,
+      sql`${articles.status} = 'processed'
+        and ${articles.publishedAt} > now() - interval '${sql.raw(String(CANDIDATE_WINDOW_HOURS))} hours'
+        and not exists (
+          select 1 from ${dailyPicks} dp
+          where dp.article_id = ${articles.id} and dp.pick_date < ${todayJst}
+        )`,
     )
     .orderBy(desc(articles.importance), desc(articles.publishedAt))
     .limit(limit);

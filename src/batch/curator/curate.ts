@@ -21,7 +21,8 @@ export type CurateSummary = {
 };
 
 /**
- * 過去24時間の processed 記事から「今日の5本」を1プロンプトで選定する(F-13)。
+ * 直近72時間の processed 記事(過去に選定済みのものを除く)から
+ * 「今日の5本」を1プロンプトで選定する(F-13)。
  * 失敗時は daily_picks を更新しない → トップは前日分を表示し続ける(docs/04 §5)。
  */
 export async function curateDailyPicks(): Promise<CurateSummary> {
@@ -35,10 +36,10 @@ export async function curateDailyPicks(): Promise<CurateSummary> {
     pickDate,
   };
 
-  const candidates = await listCurationCandidates(MAX_CANDIDATES);
+  const candidates = await listCurationCandidates(MAX_CANDIDATES, pickDate);
   summary.itemsTotal = candidates.length;
   if (candidates.length === 0) {
-    summary.skipped = "no processed articles in the last 24 hours";
+    summary.skipped = "no unpicked processed articles in the candidate window";
     return summary;
   }
 
