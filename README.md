@@ -42,6 +42,11 @@ pnpm dev:db   # 127.0.0.1:54321 で起動(データは .dev/pgdata に永続化)
 DATABASE_URL=postgres://postgres:postgres@127.0.0.1:54321/tech_news_digest
 ```
 
+> ⚠️ **`.env.local` が存在すると本番DBに接続してしまう**: Next.js は `.env.local` を `.env` より優先して読み込む。
+> `vercel env pull` を一度でも実行すると本番(Neon)の接続情報を含む `.env.local` が作られるため、
+> それ以降 `pnpm dev` を実行すると意図せず本番DBに接続する。ローカルDBで作業したい場合は
+> `.env.local` を一時的にリネームするか削除すること。詳細は [`docs/10_deployment-notes.md`](./docs/10_deployment-notes.md)。
+
 ## 開発
 
 ```sh
