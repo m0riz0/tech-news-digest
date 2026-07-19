@@ -27,7 +27,13 @@ export const sources = pgTable("sources", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const ARTICLE_STATUSES = ["pending", "processing", "processed", "failed"] as const;
+export const ARTICLE_STATUSES = [
+  "pending",
+  "processing",
+  "processed",
+  "skipped",
+  "failed",
+] as const;
 export type ArticleStatus = (typeof ARTICLE_STATUSES)[number];
 
 /** 記事(docs/05 §2.2) */

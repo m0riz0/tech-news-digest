@@ -143,7 +143,9 @@ RDBMS: **PostgreSQL**(選定理由は [07](./07_tech-stack.md))。ORM経由(Driz
 ## 5. ステータス遷移(articles.status)
 
 ```
-pending ──(digester が取得)──▶ processing ──(成功)──▶ processed
+pending ──(digester が取得)──▶ processing ──(成功・タグあり)──▶ processed
+                                   │
+                                   ├──(成功・タグ0件)──▶ skipped
                                    │
                                    └──(2回再試行後も失敗)──▶ failed
 failed ──(手動または次回バッチで再挑戦可)──▶ processing
@@ -151,3 +153,4 @@ failed ──(手動または次回バッチで再挑戦可)──▶ processing
 
 - `processing` への更新は `UPDATE ... WHERE status = 'pending' RETURNING` で排他制御し、バッチ多重起動でも二重処理を防ぐ
 - `processing` のまま一定時間(例: 30分)経過したレコードは次回バッチで `pending` に戻す(プロセス異常終了対策)
+- `skipped`: AI処理は成功したがタグマスタから1つも該当タグが選ばれなかった記事。IT・AIニュースと無関係とみなし一覧・選定の対象外にする。行を物理削除するとフィード掲載中に guid 重複排除が効かず再取得→再処理ループになるため、行を残して非表示にする

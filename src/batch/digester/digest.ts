@@ -195,6 +195,14 @@ async function applyDigest(
   tagIdByName: Map<string, number>,
 ): Promise<void> {
   const db = getDb();
+
+  // 未知タグはマスタ外のため無視する(タグの無限増殖防止。docs/04 §3.3)
+  const tagIds = item.tags
+    .map((name) => tagIdByName.get(name))
+    .filter((id): id is number => id !== undefined);
+
+  // タグが1つも付かない記事はIT・AIニュースと無関係とみなし、skipped で非表示にする。
+  // 行を残すことで guid の重複排除が効き、フィード掲載中の再取得・再処理を防ぐ(docs/05 §5)
   await db
     .update(articles)
     .set({
@@ -202,15 +210,11 @@ async function applyDigest(
       summaryJa: item.summary_ja,
       importance: item.importance,
       importanceReason: item.importance_reason,
-      status: "processed",
+      status: tagIds.length > 0 ? "processed" : "skipped",
       processedAt: new Date(),
     })
     .where(eq(articles.id, articleId));
 
-  // 未知タグはマスタ外のため無視する(タグの無限増殖防止。docs/04 §3.3)
-  const tagIds = item.tags
-    .map((name) => tagIdByName.get(name))
-    .filter((id): id is number => id !== undefined);
   if (tagIds.length > 0) {
     await db
       .insert(articleTags)
