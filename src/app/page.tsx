@@ -4,6 +4,7 @@ import { PicksSection } from "@/components/PicksSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { listArticles } from "@/db/queries/articles";
+import { getLatestFetchFinishedAt } from "@/db/queries/batch-runs";
 import { getLatestPicks } from "@/db/queries/picks";
 import { listActiveTags } from "@/db/queries/sources";
 import { encodeCursor } from "@/lib/api-helpers";
@@ -25,10 +26,11 @@ type PageData = {
 
 async function loadPageData(): Promise<PageData> {
   try {
-    const [picksResult, articlesResult, tagsResult] = await Promise.all([
+    const [picksResult, articlesResult, tagsResult, lastFetchFinishedAt] = await Promise.all([
       getLatestPicks(toJstDateString()),
       listArticles({ limit: PAGE_SIZE }),
       listActiveTags(),
+      getLatestFetchFinishedAt(),
     ]);
 
     const articles = articlesResult.articles;
@@ -44,7 +46,7 @@ async function loadPageData(): Promise<PageData> {
       },
       articles: articles.map(toArticleJson),
       nextCursor: articlesResult.hasMore && last ? encodeCursor(last.publishedAt, last.id) : null,
-      lastUpdated: articles[0] ? formatJstDateTime(new Date()) : null,
+      lastUpdated: lastFetchFinishedAt ? formatJstDateTime(lastFetchFinishedAt) : null,
       tags: tagsResult.map((t) => ({ slug: t.slug, name: t.name })),
     };
   } catch (err) {
