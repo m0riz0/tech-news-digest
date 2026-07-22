@@ -59,5 +59,23 @@ jobs:
             echo "jobs=fetch digest" >> "$GITHUB_OUTPUT"
           fi
 
+      # CIのワークスペースは未トラスト状態のため、コミット済みの
+      # .claude/settings.local.json の permissions.allow が無視され、
+      # `claude -p` が exit code 1 で失敗する。ヘッドレス実行前にトラスト済みとしてマークする。
+      - name: Trust workspace for Claude Code
+        run: |
+          node --eval '
+            const fs = require("node:fs");
+            const os = require("node:os");
+            const path = require("node:path");
+            const file = path.join(os.homedir(), ".claude.json");
+            const config = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : {};
+            config.projects ??= {};
+            const ws = process.env.GITHUB_WORKSPACE;
+            config.projects[ws] = { ...(config.projects[ws] ?? {}), hasTrustDialogAccepted: true };
+            fs.writeFileSync(file, JSON.stringify(config, null, 2));
+            console.log("Trusted workspace: " + ws);
+          '
+
       - name: Run batch
         run: pnpm batch ${{ steps.jobs.outputs.jobs }}
